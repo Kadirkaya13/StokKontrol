@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StokDb.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Adresleme">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+          </Key>
+          <Property Name="StokKodu" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="BosaltmaYontemi" Type="varchar" MaxLength="500" />
+          <Property Name="GeciciKabul" Type="bit" />
+          <Property Name="Hasar" Type="varchar" MaxLength="500" />
+          <Property Name="MalKabul" Type="bit" />
+          <Property Name="Yerleştirme" Type="nvarchar" MaxLength="10" />
+          <Property Name="YüklemeBosaltmaAlani" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="StokKart">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKodu" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="OzelKod" Type="varchar" MaxLength="150" />
+          <Property Name="Ad" Type="varchar" MaxLength="150" />
+          <Property Name="GenelAd" Type="varchar" MaxLength="150" />
+          <Property Name="StokTipi" Type="varchar" MaxLength="150" />
+          <Property Name="AlışFiyat" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="SatışFiyat" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Kdv" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Adet" Type="int" />
+          <Property Name="Barkod" Type="varchar" MaxLength="500" />
+          <Property Name="Durum" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Adresleme_StokKart">
+          <End Role="StokKart" Type="Self.StokKart" Multiplicity="1" />
+          <End Role="Adresleme" Type="Self.Adresleme" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="StokKart">
+              <PropertyRef Name="StokKodu" />
+            </Principal>
+            <Dependent Role="Adresleme">
+              <PropertyRef Name="StokKodu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StokDbStoreContainer">
+          <EntitySet Name="Adresleme" EntityType="Self.Adresleme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKart" EntityType="Self.StokKart" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Adresleme_StokKart" Association="Self.FK_Adresleme_StokKart">
+            <End Role="StokKart" EntitySet="StokKart" />
+            <End Role="Adresleme" EntitySet="Adresleme" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StokDb" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Adresleme">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+          </Key>
+          <Property Name="StokKodu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BosaltmaYontemi" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="GeciciKabul" Type="Boolean" />
+          <Property Name="Hasar" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MalKabul" Type="Boolean" />
+          <Property Name="Yerleştirme" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="YüklemeBosaltmaAlani" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StokKart" Relationship="Self.FK_Adresleme_StokKart" FromRole="Adresleme" ToRole="StokKart" />
+        </EntityType>
+        <EntityType Name="StokKart">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKodu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OzelKod" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Ad" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GenelAd" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="StokTipi" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="AlışFiyat" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SatışFiyat" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Kdv" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Adet" Type="Int32" />
+          <Property Name="Barkod" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Durum" Type="Boolean" />
+          <NavigationProperty Name="Adresleme" Relationship="Self.FK_Adresleme_StokKart" FromRole="StokKart" ToRole="Adresleme" />
+        </EntityType>
+        <Association Name="FK_Adresleme_StokKart">
+          <End Role="StokKart" Type="Self.StokKart" Multiplicity="1" />
+          <End Role="Adresleme" Type="Self.Adresleme" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="StokKart">
+              <PropertyRef Name="StokKodu" />
+            </Principal>
+            <Dependent Role="Adresleme">
+              <PropertyRef Name="StokKodu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StokDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Adresleme" EntityType="Self.Adresleme" />
+          <EntitySet Name="StokKart" EntityType="Self.StokKart" />
+          <AssociationSet Name="FK_Adresleme_StokKart" Association="Self.FK_Adresleme_StokKart">
+            <End Role="StokKart" EntitySet="StokKart" />
+            <End Role="Adresleme" EntitySet="Adresleme" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StokDbStoreContainer" CdmEntityContainer="StokDbEntities">
+          <EntitySetMapping Name="Adresleme">
+            <EntityTypeMapping TypeName="StokDb.Adresleme">
+              <MappingFragment StoreEntitySet="Adresleme">
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="BosaltmaYontemi" ColumnName="BosaltmaYontemi" />
+                <ScalarProperty Name="GeciciKabul" ColumnName="GeciciKabul" />
+                <ScalarProperty Name="Hasar" ColumnName="Hasar" />
+                <ScalarProperty Name="MalKabul" ColumnName="MalKabul" />
+                <ScalarProperty Name="Yerleştirme" ColumnName="Yerleştirme" />
+                <ScalarProperty Name="YüklemeBosaltmaAlani" ColumnName="YüklemeBosaltmaAlani" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKart">
+            <EntityTypeMapping TypeName="StokDb.StokKart">
+              <MappingFragment StoreEntitySet="StokKart">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="OzelKod" ColumnName="OzelKod" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="GenelAd" ColumnName="GenelAd" />
+                <ScalarProperty Name="StokTipi" ColumnName="StokTipi" />
+                <ScalarProperty Name="AlışFiyat" ColumnName="AlışFiyat" />
+                <ScalarProperty Name="SatışFiyat" ColumnName="SatışFiyat" />
+                <ScalarProperty Name="Kdv" ColumnName="Kdv" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="Barkod" ColumnName="Barkod" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
